@@ -70,7 +70,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/eating_text"
             app:layout_constraintStart_toStartOf="@+id/calories_goal"
             app:layout_constraintTop_toTopOf="@+id/eating_text"
-            tools:text="@string/_0_kcal" />
+            tools:text="10000 kcal" />
 
         <TextView
             android:id="@+id/burn_text"
@@ -108,16 +108,34 @@
             app:layout_constraintTop_toBottomOf="@+id/nutrition_header" />
 
         <TextView
+            android:gravity="end"
+            android:layout_marginStart="16dp"
+
             android:id="@+id/total_calories"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
+            android:includeFontPadding="false"
             android:textColor="@color/black"
             android:textSize="48sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/eating"
             app:layout_constraintTop_toBottomOf="@+id/total"
-            tools:text="0" />
+            tools:text="90000" />
+
+        <TextView
+            android:includeFontPadding="false"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:text="@string/kcal"
+            app:layout_constraintTop_toBottomOf="@+id/total_calories"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="18sp"
+            android:id="@+id/total_calories_calc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrier"

@@ -166,14 +166,7 @@ class CalculatorActivity : BaseActivity() {
     }
 
     private fun setTotalData(totalData: Int) {
-        val totalCalories = buildSpannedString {
-            append(totalData.toString())
-            append("\n")
-            scale(0.375f) {
-                append(getText(R.string.kcal))
-            }
-        }
-        binding.totalCalories.text = totalCalories
+        binding.totalCalories.text = totalData.toString()
     }
 
     private fun handleCaloriesData(calories: List<CaloriesEntity>) {
