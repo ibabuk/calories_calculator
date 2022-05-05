@@ -1,15 +1,12 @@
 package by.ibabuk.calcalc.repository
 
-import androidx.collection.ArraySet
 import by.ibabuk.calcalc.entity.CaloriesEntity
 import by.ibabuk.calcalc.entity.EatPeriod
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Created by Artem Babuk on 4.05.22
@@ -75,14 +72,15 @@ class DataRepository(private val dispatcher: CoroutineDispatcher) {
             .flowOn(dispatcher)
     }
 
-    fun getPeriodCalories(timePeriod: EatPeriod): Flow<Int> {
+    suspend fun getPeriodCalories(timePeriod: EatPeriod): Flow<Int> {
         return flow {
             val index = this@DataRepository.calories.indexOfFirst { it.period == timePeriod }
             if (index != -1) {
                 emit(this@DataRepository.calories[index].calories)
-            }else{
+            } else {
                 emit(0)
             }
         }
+            .flowOn(dispatcher)
     }
 }
