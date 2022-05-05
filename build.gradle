@@ -9,3 +9,11 @@ plugins {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+subprojects {
+    apply from: "${rootDir}/gradle/detekt.gradle"
+
+    dependencies {
+        detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.20.0")
+    }
+}

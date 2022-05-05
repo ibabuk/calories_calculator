@@ -7,5 +7,4 @@ import androidx.lifecycle.ViewModel
  * Skype: archiecrown
  * Telegram: @iBabuk
  */
-class EnterCaloriesViewModel : ViewModel() {
-}
+class EnterCaloriesViewModel : ViewModel()
