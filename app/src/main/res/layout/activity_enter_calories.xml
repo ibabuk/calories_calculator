@@ -34,6 +34,7 @@
                     android:id="@+id/calories_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
                     android:gravity="center"
                     android:text="@string/enter_the_number_of_calories"
                     android:textColor="@color/black"
@@ -44,12 +45,12 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:imeOptions="actionDone"
                     android:id="@+id/calories"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:hint="@string/kcal"
+                    android:imeOptions="actionDone"
                     android:inputType="number"
                     android:maxLength="4"
                     app:layout_constraintEnd_toEndOf="parent"

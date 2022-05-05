@@ -57,6 +57,9 @@ class EnterCaloriesActivity : BaseActivity() {
     }
 
     private fun setUpBinding() {
+        binding.dragLayout.setOnClickListener {
+            closeScreen()
+        }
         binding.confirm.setOnClickListener {
             handleConfirm()
         }
