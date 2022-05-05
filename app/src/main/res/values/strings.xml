@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Calories Calculator</string>
+    <string name="nutrition">Nutrition</string>
+    <string name="calories_goal">Calories Goal:</string>
+    <string name="eating">Eating:</string>
+    <string name="burn">Burn:</string>
+    <string name="total">Total:</string>
+    <string name="kcal">kcal</string>
+    <string name="_1450_kcal">1450 kcal</string>
+    <string name="_0_kcal">0 kcal</string>
+    <string name="_300_kcal">300 kcal</string>
+    <string name="format_kcal">%1$d kcal</string>
+    <string name="breakfast">breakfast</string>
+    <string name="lunch">lunch</string>
+    <string name="dinner">dinner</string>
+    <string name="enter_the_number_of_calories">Enter the number of calories</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="enter_calories_error">Enter calories</string>
+    <string name="wrong_calories_error">Incorrect calories</string>
+    <string name="general_error">Unknown error</string>
+</resources>

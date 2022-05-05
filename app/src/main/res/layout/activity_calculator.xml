@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingBottom="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/nutrition_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="80dp"
+            android:text="@string/nutrition"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/calories_goal_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="50dp"
+            android:text="@string/calories_goal"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nutrition_header" />
+
+        <TextView
+            android:id="@+id/calories_goal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/_1450_kcal"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/calories_goal_text"
+            app:layout_constraintStart_toEndOf="@+id/calories_goal_text"
+            app:layout_constraintTop_toTopOf="@+id/calories_goal_text" />
+
+        <TextView
+            android:id="@+id/eating_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/eating"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="@+id/calories_goal_text"
+            app:layout_constraintTop_toBottomOf="@+id/calories_goal_text" />
+
+        <TextView
+            android:id="@+id/eating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/eating_text"
+            app:layout_constraintStart_toStartOf="@+id/calories_goal"
+            app:layout_constraintTop_toTopOf="@+id/eating_text"
+            tools:text="@string/_0_kcal" />
+
+        <TextView
+            android:id="@+id/burn_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/burn"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="@+id/eating_text"
+            app:layout_constraintTop_toBottomOf="@+id/eating_text" />
+
+        <TextView
+            android:id="@+id/burn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_300_kcal"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/burn_text"
+            app:layout_constraintStart_toStartOf="@+id/calories_goal"
+            app:layout_constraintTop_toTopOf="@+id/burn_text" />
+
+        <TextView
+            android:id="@+id/total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/total"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nutrition_header" />
+
+        <TextView
+            android:id="@+id/total_calories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/black"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/total"
+            tools:text="0" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="total_calories, burn_text" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chart"
+            android:layout_width="0dp"
+            android:layout_height="175dp"
+            android:layout_marginTop="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/barrier" />
+
+        <include
+            android:id="@+id/breakfast"
+            layout="@layout/add_calories_view"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="55dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chart" />
+
+        <include
+            android:id="@+id/lunch"
+            layout="@layout/add_calories_view"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="55dp"
+            app:layout_constraintStart_toEndOf="@+id/breakfast"
+            app:layout_constraintTop_toBottomOf="@+id/chart" />
+
+        <include
+            android:id="@+id/dinner"
+            layout="@layout/add_calories_view"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="55dp"
+            app:layout_constraintStart_toEndOf="@+id/lunch"
+            app:layout_constraintTop_toBottomOf="@+id/chart" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
