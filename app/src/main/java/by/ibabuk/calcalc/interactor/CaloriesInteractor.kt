@@ -6,7 +6,6 @@ import by.ibabuk.calcalc.interactor.mapper.CaloriesMapper
 import by.ibabuk.calcalc.repository.DataRepository
 import com.github.mikephil.charting.data.Entry
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.zip
 import java.util.*
@@ -20,6 +19,11 @@ class CaloriesInteractor(
     private val dataRepository: DataRepository,
     private val mapper: CaloriesMapper
 ) {
+
+    suspend fun checkDateCalories() {
+        dataRepository
+            .checkDataCalories()
+    }
 
     suspend fun getEatingCalories(): Flow<Int> {
         return dataRepository

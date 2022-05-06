@@ -209,6 +209,9 @@ class CalculatorActivity : BaseActivity() {
             if (state != true) {
                 startAnimationForCaloriesView(binding)
             }
+        } else {
+            val transition = binding.parent.background as TransitionDrawable
+            transition.resetTransition()
         }
     }
 

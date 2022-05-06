@@ -3,6 +3,7 @@ package by.ibabuk.calcalc.repository
 import by.ibabuk.calcalc.entity.CaloriesEntity
 import by.ibabuk.calcalc.entity.EatPeriod
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -20,6 +21,11 @@ class DataRepository(private val dispatcher: CoroutineDispatcher) {
     private val calories = ArrayList<CaloriesEntity>()
 
     init {
+        reset()
+    }
+
+    private fun reset() {
+        calories.clear()
         calories.add(CaloriesEntity.breakfast())
         calories.add(CaloriesEntity.lunch())
         calories.add(CaloriesEntity.dinner())
@@ -58,6 +64,8 @@ class DataRepository(private val dispatcher: CoroutineDispatcher) {
         time: Date
     ): Flow<List<CaloriesEntity>> {
         return flow {
+            //check current date
+            checkDataCalories()
 
             val index = this@DataRepository.calories.indexOfFirst { it.period == timePeriod }
             if (index != -1) {
@@ -82,5 +90,25 @@ class DataRepository(private val dispatcher: CoroutineDispatcher) {
             }
         }
             .flowOn(dispatcher)
+    }
+
+    suspend fun checkDataCalories(date: Date? = null) = coroutineScope {
+        val calendar = if (date != null) {
+            val calendar = Calendar.getInstance()
+            calendar.time = date
+            calendar
+        } else {
+            Calendar.getInstance()
+        }
+        val findCalories = this@DataRepository.calories.find { it.time != null }
+        findCalories?.let {
+            val caloriesCalendar = Calendar.getInstance()
+            caloriesCalendar.time = it.time!!
+            val calorieDay = caloriesCalendar.get(Calendar.DAY_OF_YEAR)
+            val currentDay = calendar.get(Calendar.DAY_OF_YEAR)
+            if (calorieDay != currentDay) {
+                reset()
+            }
+        }
     }
 }

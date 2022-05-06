@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.*
 
 /**
@@ -35,24 +36,32 @@ class CalculatorViewModel(private val caloriesInteractor: CaloriesInteractor) : 
     fun getEditCaloriesData() = editCaloriesData.asSharedFlow()
 
     fun initData() {
-        viewModelScope.launch {
-            caloriesInteractor
-                .getEatingCalories()
-                .onEach { eatingData.emit(it) }
-                .launchIn(viewModelScope)
+        runBlocking {
+            val job = viewModelScope.launch {
+                caloriesInteractor
+                    .checkDateCalories()
+            }
 
-            caloriesInteractor
-                .getTotalCalories()
-                .onEach { totalData.emit(it) }
-                .launchIn(viewModelScope)
+            job.join()
+            viewModelScope.launch {
+                caloriesInteractor
+                    .getEatingCalories()
+                    .onEach { eatingData.emit(it) }
+                    .launchIn(viewModelScope)
 
-            caloriesInteractor
-                .getCalories()
-                .onEach {
-                    caloriesData.emit(it.calories)
-                    chartData.emit(it.dataSet)
-                }
-                .launchIn(viewModelScope)
+                caloriesInteractor
+                    .getTotalCalories()
+                    .onEach { totalData.emit(it) }
+                    .launchIn(viewModelScope)
+
+                caloriesInteractor
+                    .getCalories()
+                    .onEach {
+                        caloriesData.emit(it.calories)
+                        chartData.emit(it.dataSet)
+                    }
+                    .launchIn(viewModelScope)
+            }
         }
     }
 
