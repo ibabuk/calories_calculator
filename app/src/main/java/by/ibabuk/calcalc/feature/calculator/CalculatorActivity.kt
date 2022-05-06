@@ -40,11 +40,10 @@ class CalculatorActivity : BaseActivity() {
 
     private val viewModel: CalculatorViewModel by viewModel()
 
-    private var timePeriod: EatPeriod? = null
-    private var caloriesBinding: AddCaloriesViewBinding? = null
-
     private var previousEatCalories = 0
     private var previousTotalCalories = 0
+
+    private var caloriesBinding: AddCaloriesViewBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,10 +92,8 @@ class CalculatorActivity : BaseActivity() {
         timePeriod: EatPeriod,
         binding: AddCaloriesViewBinding
     ) {
-        this.timePeriod = timePeriod
         this.caloriesBinding = binding
-        val transition = binding.parent.background as TransitionDrawable
-        transition.startTransition(ANIMATION_DURATION)
+        startAnimationForCaloriesView(binding)
         binding.parent.elevation = 6f
         binding.parent.animate().translationZ(6f).setDuration(ANIMATION_DURATION.toLong()).start()
 
@@ -104,12 +101,12 @@ class CalculatorActivity : BaseActivity() {
     }
 
     private fun unhighlightCaloriesView() {
-        timePeriod = null
         val transition = caloriesBinding?.parent?.background as? TransitionDrawable
         transition?.reverseTransition(ANIMATION_DURATION)
         caloriesBinding?.parent?.elevation = 0f
         caloriesBinding?.parent?.animate()?.translationZ(0f)
             ?.setDuration(ANIMATION_DURATION.toLong())?.start()
+        caloriesBinding = null
     }
 
     private fun observeViewModel() {
@@ -207,6 +204,18 @@ class CalculatorActivity : BaseActivity() {
         binding.time.text = caloriesEntity.getTime()
         binding.kcal.text = getCalories(caloriesEntity.calories)
         binding.dayPeriod.setText(caloriesEntity.period.title)
+        if (caloriesEntity.time != null) {
+            val state = binding.parent.tag as? Boolean
+            if (state != true) {
+                startAnimationForCaloriesView(binding)
+            }
+        }
+    }
+
+    private fun startAnimationForCaloriesView(binding: AddCaloriesViewBinding) {
+        val transition = binding.parent.background as TransitionDrawable
+        transition.startTransition(ANIMATION_DURATION)
+        binding.parent.tag = true
     }
 
     private fun getCalories(calories: Int): SpannedString {
@@ -221,8 +230,8 @@ class CalculatorActivity : BaseActivity() {
         }
     }
 
-    private fun showEnterCaloriesScreen(calories: Int) {
-        enterContract.launch(EnterCaloriesActivity.intent(this, calories))
+    private fun showEnterCaloriesScreen(data: Pair<EatPeriod, Int>) {
+        enterContract.launch(EnterCaloriesActivity.intent(this, data.first, data.second))
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
@@ -231,12 +240,14 @@ class CalculatorActivity : BaseActivity() {
             if (it.resultCode == Activity.RESULT_OK) {
                 val calories = EnterCaloriesActivity.getCalories(it.data)
                 val time = EnterCaloriesActivity.getTime(it.data)
+                val timePeriod = EnterCaloriesActivity.getEatPeriod(it.data)
                 if (time != null && timePeriod != null) {
-                    viewModel.setCalories(timePeriod!!, calories, time)
+                    viewModel.setCalories(timePeriod, calories, time)
                 } else {
                     showSnackbarMessage(R.string.general_error)
                 }
+            } else {
+                unhighlightCaloriesView()
             }
-            unhighlightCaloriesView()
         }
 }

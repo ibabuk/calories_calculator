@@ -25,7 +25,7 @@ class CalculatorViewModel(private val caloriesInteractor: CaloriesInteractor) : 
     private val totalData = MutableSharedFlow<Int>(replay = 1)
     private val caloriesData = MutableSharedFlow<List<CaloriesEntity>>(replay = 1)
     private val chartData = MutableSharedFlow<List<Entry>>(replay = 1)
-    private val editCaloriesData = MutableSharedFlow<Int>()
+    private val editCaloriesData = MutableSharedFlow<Pair<EatPeriod, Int>>()
 
 
     fun getEatingData() = eatingData.asSharedFlow()
@@ -38,16 +38,12 @@ class CalculatorViewModel(private val caloriesInteractor: CaloriesInteractor) : 
         viewModelScope.launch {
             caloriesInteractor
                 .getEatingCalories()
-                .onEach {
-                    eatingData.emit(it)
-                }
+                .onEach { eatingData.emit(it) }
                 .launchIn(viewModelScope)
 
             caloriesInteractor
                 .getTotalCalories()
-                .onEach {
-                    totalData.emit(it)
-                }
+                .onEach { totalData.emit(it) }
                 .launchIn(viewModelScope)
 
             caloriesInteractor
@@ -81,9 +77,7 @@ class CalculatorViewModel(private val caloriesInteractor: CaloriesInteractor) : 
         viewModelScope.launch {
             caloriesInteractor
                 .getPeriodCalories(timePeriod)
-                .onEach {
-                    editCaloriesData.emit(it)
-                }
+                .onEach { editCaloriesData.emit(it) }
                 .launchIn(viewModelScope)
         }
     }

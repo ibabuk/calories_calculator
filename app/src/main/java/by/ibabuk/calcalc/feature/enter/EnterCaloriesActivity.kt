@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import app.futured.hauler.setOnDragDismissedListener
 import by.ibabuk.calcalc.R
 import by.ibabuk.calcalc.databinding.ActivityEnterCaloriesBinding
+import by.ibabuk.calcalc.entity.EatPeriod
 import by.ibabuk.calcalc.ext.closeScreen
 import by.ibabuk.calcalc.ext.slideInView
 import by.ibabuk.calcalc.feature.base.BaseActivity
@@ -25,6 +26,7 @@ class EnterCaloriesActivity : BaseActivity() {
 
     companion object {
         private const val CALORIES = "calories"
+        private const val EAT_PERIOD = "eat_period"
         private const val TIME = "time"
 
         fun getCalories(data: Intent?): Int {
@@ -35,13 +37,19 @@ class EnterCaloriesActivity : BaseActivity() {
             return data?.getSerializableExtra(TIME) as? Date
         }
 
+        fun getEatPeriod(data: Intent?): EatPeriod? {
+            return data?.getSerializableExtra(EAT_PERIOD) as? EatPeriod
+        }
+
         fun intent(
             context: Context,
+            eatPeriod: EatPeriod,
             calories: Int
         ): Intent {
-            val intent = Intent(context, EnterCaloriesActivity::class.java)
-            intent.putExtra(CALORIES, calories)
-            return intent
+            return Intent(context, EnterCaloriesActivity::class.java).apply {
+                putExtra(CALORIES, calories)
+                putExtra(EAT_PERIOD, eatPeriod)
+            }
         }
     }
 
@@ -110,9 +118,11 @@ class EnterCaloriesActivity : BaseActivity() {
             val calories = caloriesStr.toInt()
             val date = Calendar.getInstance().time
             closeScreen {
-                val intent = Intent()
-                intent.putExtra(CALORIES, calories)
-                intent.putExtra(TIME, date)
+                val intent = Intent().apply {
+                    putExtra(CALORIES, calories)
+                    putExtra(TIME, date)
+                    putExtra(EAT_PERIOD, getEatPeriod(intent))
+                }
                 setResult(Activity.RESULT_OK, intent)
             }
         } catch (e: Exception) {

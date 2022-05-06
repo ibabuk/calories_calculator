@@ -40,9 +40,12 @@ class CaloriesInteractor(
             }
     }
 
-    suspend fun getPeriodCalories(timePeriod: EatPeriod): Flow<Int> {
+    suspend fun getPeriodCalories(timePeriod: EatPeriod): Flow<Pair<EatPeriod, Int>> {
         return dataRepository
             .getPeriodCalories(timePeriod)
+            .map {
+                Pair(timePeriod, it)
+            }
     }
 
     suspend fun setCalories(
